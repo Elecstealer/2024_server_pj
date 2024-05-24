@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    
+    <title>contest page</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+    <!--LOGO-->
+    <a class="navbar-brand" href="/home">HOME</a>
+    <!--Links-->
+    <div class="container-fluid full-width">
+    <ul class="nav navbar-nav">
+    <li class="nav-item active">
+    </li>
+    </ul>
+    <div>
+    {% if logininfo %}
+    <button class="btn btn-dark btn-right" type="button" onclick="location.href='/logout'">로그아웃</button>
+    {% else %}
+    <button class="btn btn-dark btn-right" type="button" onclick="location.href='/login'">로그인</button>
+    {% endif %}
+    </div>
+</nav>
+</div>
+
+<div class="container">
+    <br>
+    <h1><strong><a style="color:#110957;">공모전 목록</a></strong></h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>작성자</th>
+            <th>시간</th>
+            <th>페이지</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for post in postlist %}
+        <tr>
+            <td>{{ post['id'] }}</td>
+            <td><a style="color:#110957;" href="/page/memberpost/memberview/{{ post['id'] }}">{{ post['title'] }}</a></td>
+            <td>{{ post['content'] }}</td>
+            <td>{{ post['username'] }}</td>
+            <td>{{ post['time'] }}</td>
+            <td>{{ post['value'] }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <a class="btn btn-dark btn-right" href="{{ url_for('postwrite', id=postlist[0]['value'] if postlist else 1) }}">게시글 작성</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <style>
+        /* 스타일링 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .apply-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .apply-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>마이페이지</h1>
+        <form id="myForm">
+            <!-- 여기에 입력 폼 추가 -->
+            <!-- 필요한 경우 데이터베이스에서 기존 정보를 불러와서 각 입력 필드에 값을 설정할 수 있습니다. -->
+            <label for="username">이름:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="major">전공:</label>
+            <input type="text" id="major" name="major" required>
+            
+            <label for="grade">학년:</label>
+            <input type="number" id="grade" name="grade" required>
+            
+            <label for="completed_projects">완료한 프로젝트:</label>
+            <input type="text" id="completed_projects" name="completed_projects" required>
+            
+            <label for="ongoing_projects">진행중인 프로젝트:</label>
+            <input type="text" id="ongoing_projects" name="ongoing_projects" required>
+            
+            <label for="introduction">자기소개:</label>
+            <textarea id="introduction" name="introduction" rows="4" required></textarea>
+
+            <label for="phone">핸드폰:</label>
+            <input type="number" id="phone" name="phone" required>
+            
+            <label for="email">이메일:</label>
+            <input type="text" id="email" name="email" required>
+            
+            <input type="submit" value="저장">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(this);
+
+            fetch('/mypage', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = '/home';
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+                alert('데이터 저장 중 오류가 발생했습니다.');
+            });
+        });
+    </script>
+</body>
+</html>
